@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开始答卷</title>
+    <link rel="stylesheet" href="../common/header/index.css">
+    <link rel="stylesheet" href="../../static/bootstrap-3.4.1/css/bootstrap.min.css">
+    <script src="../../static/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+    <script src="../../static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+    <script src="../../my-config.js"></script>
+</head>
+<body>
+
+<div style="width: 500px;margin: 0 auto">
+    <br>
+    <br>
+    <h4 >填写您的名字,开始答卷</h4>
+    <br>
+    <form  >
+
+        <label for="name">姓名：</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <br>
+        <br>
+        <div style="margin-left: 7em">
+            <button type="button"  onclick="sut()" class="btn btn-primary" >开始答题</button>
+        </div>
+    </form>
+</div>
+
+</body>
+<script type="module" src="../../utils/index.js"></script>
+<script src="../common/header/index.js"></script>
+<script>
+    var sut=()=>{
+      var name=  $('#name').val();
+      if(!name){
+          alert("请先填写您的姓名")
+          return
+      }
+     var param= getUrlParams( window.location.href)
+     location.href='/pages/answerSheet/index.html?quId='+param.id+'&userName='+name;
+    }
+</script>
+</html>

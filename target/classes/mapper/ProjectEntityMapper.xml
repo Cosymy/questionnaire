@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springdemo.dao.ProjectEntityMapper">
+
+    <select id="queryProjectList" parameterType="java.lang.String" resultType="com.example.springdemo.dao.entity.ProjectEntity">
+        SELECT id,user_id as "userId", project_name as "projectName",project_content as "projectContent",created_by as "createdBy",
+        creation_date as "creationDate", last_updated_by as "lastUpdatedBy", last_update_date as "lastUpdateDate"
+        FROM project_info
+        WHERE 1
+        <if test="projectName != null and projectName !=''">
+            and project_name LIKE CONCAT('%', #{projectName,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="id != null and id != ''">
+            and id = #{id,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+  <!--查询全部项目的名字接口-->
+    <select id="queryAllProjectName" resultType="map">
+        SELECT project_name AS projectName
+        FROM project_info
+    </select>
+
+
+    <insert id="insert" parameterType="com.example.springdemo.dao.entity.ProjectEntity">
+        insert into project_info(id,user_id,project_name,
+                                 project_content,created_by,creation_date,
+                                 last_updated_by,last_update_date)
+        values(#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR},
+               #{projectContent,jdbcType=VARCHAR}, #{createdBy,jdbcType=CHAR}, #{creationDate,jdbcType=TIMESTAMP},
+               #{lastUpdatedBy,jdbcType=CHAR}, #{lastUpdateDate,jdbcType=TIMESTAMP})
+    </insert>
+
+    <delete id="deleteProjectById" parameterType="com.example.springdemo.dao.entity.ProjectEntity">
+        delete from project_info
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.springdemo.dao.entity.ProjectEntity">
+        update project_info
+        set
+            user_id = #{userId,jdbcType=VARCHAR},
+            project_name = #{projectName,jdbcType=VARCHAR},
+            project_content = #{projectContent,jdbcType=VARCHAR},
+            created_by = #{createdBy,jdbcType=CHAR},
+            creation_date = #{creationDate,jdbcType=TIMESTAMP},
+            last_updated_by = #{lastUpdatedBy,jdbcType=CHAR},
+            last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+</mapper>
